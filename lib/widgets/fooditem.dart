@@ -33,8 +33,15 @@ class _FoodItemState extends State<FoodItem> {
               width: 10,
             ),
             Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text('name'),
+                Text(
+                  'name',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
                 Row(
                   children: [
                     IconButton(
