@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 4,
           ),
           Container(
-            height: 100,
+            height: 80,
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 5,
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 1.3,
+            height: MediaQuery.of(context).size.height / 1.5,
             color: Colors.amberAccent,
             child: ListView.builder(
                 scrollDirection: Axis.vertical,

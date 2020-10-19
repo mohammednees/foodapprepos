@@ -4,6 +4,7 @@ import 'package:foodapp/model/user.dart';
 import 'package:foodapp/providers/firebase.dart';
 import 'package:foodapp/screens/home.dart';
 import 'package:foodapp/screens/splash_screens.dart';
+import 'package:foodapp/screens/start_page.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -61,7 +62,7 @@ class HomeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: HomeScreen(),
+      body: StartPage(),
     );
   }
 }
