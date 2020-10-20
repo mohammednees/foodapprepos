@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/widgets/button.dart';
 
 class FoodItem extends StatefulWidget {
   String name;
@@ -42,21 +43,7 @@ class _FoodItemState extends State<FoodItem> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
-                Row(
-                  children: [
-                    IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          print('back');
-                        }),
-                    Text('1'),
-                    IconButton(
-                        icon: Icon(Icons.arrow_forward),
-                        onPressed: () {
-                          print('forward');
-                        }),
-                  ],
-                )
+                Quantitybtn()
               ],
             )
           ],
