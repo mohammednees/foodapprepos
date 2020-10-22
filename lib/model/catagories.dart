@@ -26,13 +26,13 @@ class Catagory with ChangeNotifier {
 class Catagories with ChangeNotifier {
   List<Catagory> _items = [
     Catagory(
-      'Burgers',
+      'Burger',
      
       'https://www.simplyrecipes.com/wp-content/uploads/2018/06/HT-Grill-Burger-LEAD-VERTICAL.jpg',
       Color(0xFF42d5F1),
     ),
     Catagory(
-      'Ckecken ',
+      'Ckicken',
      
       'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/20191011-keto-fried-chicken-delish-ehg-2642-1571677665.jpg',
       Color(0xFF99A5a8),

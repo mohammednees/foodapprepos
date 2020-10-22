@@ -4,6 +4,7 @@ import 'package:foodapp/model/catagories.dart';
 import 'package:foodapp/model/meals.dart';
 import 'package:foodapp/model/user.dart';
 import 'package:foodapp/providers/firebase.dart';
+import 'package:foodapp/screens/cart_screen.dart';
 import 'package:foodapp/widgets/badge.dart';
 import 'package:foodapp/widgets/fooditem.dart';
 import 'package:foodapp/widgets/foodtype.dart';
@@ -18,6 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
   Map<String, Meal> meals;
   List<Catagory> catagoris;
+  int _catagoryIndex = 0;
 
   _signOut() async {
     await _auth.signOut();
@@ -32,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var meals = Provider.of<Meals>(context, listen: false)
+        .filterItems(catagoris[_catagoryIndex].name);
+    
     var userinfo = Provider.of<UserIformations>(context, listen: false);
 
     return SafeArea(
@@ -61,7 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(width: 50),
               GestureDetector(
                 onTap: () {
-                  print('cart pressed');
+               
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CartScreen(),
+                      ));
                 },
                 child: Badge(
                     color: Colors.yellow,
@@ -69,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Icons.shopping_cart_outlined,
                       size: 40,
                     ),
-                    value: '3'),
+                    value: Provider.of<Meals>(context).items.length.toString()),
               ),
             ],
           ),
@@ -81,12 +91,15 @@ class _HomeScreenState extends State<HomeScreen> {
             width: MediaQuery.of(context).size.width,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: 3,
+                itemCount: catagoris.length,
                 itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    print(index);
-                  },
-                  child: FoodType(catagoris[index]))),
+                    onTap: () {
+                      setState(() {
+                        _catagoryIndex = index;
+                       
+                      });
+                    },
+                    child: FoodType(catagoris[index]))),
           ),
           SizedBox(
             height: 5,
@@ -96,9 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.amberAccent[100],
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: meals.length,
-                itemBuilder: (context, index) =>
-                    FoodItem(meals.values.toList()[index]),
+                itemCount: meals.length == null ? 0 : meals.length,
+                itemBuilder: (context, index) {
+                  return FoodItem(meals[index]);
+                  //  return FoodItem(x[index]);
+                },
               ))
         ],
       )),
@@ -108,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
   /////////////////////// Get Meals ///////////////////
 
   void _getMeals() {
-    meals = Provider.of<Meals>(context, listen: false).items;
+    meals = Provider.of<Meals>(context, listen: false).serveritems;
   }
 
   void _getCatagories() {

@@ -75,7 +75,7 @@ class _FoodItemState extends State<FoodItem> {
                       ),
                     ],
                   ),
-                  Quantitybtn()
+                  Quantitybtn(widget._meal)
                 ],
               ),
               Text(

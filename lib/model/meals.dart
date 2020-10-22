@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 
 class Meal with ChangeNotifier {
   String _name;
+  String _catagory;
+
   double _price;
   int _qty;
   int _calories;
@@ -10,13 +12,17 @@ class Meal with ChangeNotifier {
   String _imageUrl;
   String _discription;
 
-  Meal(this._name, this._price,
-      [this._qty = 1,
-      this._imageUrl,
-      this._calories,
-      this._isFavorite = false,
-      this._time,
-      this._discription]);
+  Meal(
+    this._name,
+    this._price, [
+    this._qty = 1,
+    this._imageUrl,
+    this._calories,
+    this._isFavorite = false,
+    this._time,
+    this._discription,
+    this._catagory,
+  ]);
 
   set name(String val) {
     this._name = val;
@@ -38,7 +44,9 @@ class Meal with ChangeNotifier {
 
   int get calories => _calories;
   int get time => _time;
+  String get catagory => _catagory;
 
+  set catagory(String value) => _catagory = value;
   set time(int value) => _time = value;
   set calories(int value) => _calories = value;
   String get name => _name;
@@ -57,26 +65,47 @@ class Meal with ChangeNotifier {
 }
 
 class Meals with ChangeNotifier {
-  Map<String, Meal> _items = {
+  Map<String, Meal> _serveritems = {
     'big burger': Meal(
-        'big burger',
-        20.0,
-        1,
-        'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
-        250,
-        false,
-        30,
-        'good food'),
+      'big burger',
+      20.0,
+      1,
+      'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
+      250,
+      false,
+      30,
+      'good food',
+      'Burger',
+    ),
     'small burger': Meal(
-        'small burger',
-        10.0,
-        1,
-        'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
-        250,
-        false,
-        15,
-        'contains of some good hot spicy food'),
+      'small burger',
+      10.0,
+      1,
+      'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
+      250,
+      false,
+      15,
+      'contains of some good hot spicy food',
+      'Burger',
+    ),
+    'ckicken': Meal(
+      'small burger',
+      50.0,
+      1,
+      'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
+      750,
+      false,
+      15,
+      'good Chicken for one person',
+      'Ckicken',
+    ),
   };
+
+  Map<String, Meal> _items = {};
+
+  Map<String, Meal> get serveritems {
+    return {..._serveritems};
+  }
 
   Map<String, Meal> get items {
     return {..._items};
@@ -103,7 +132,6 @@ class Meals with ChangeNotifier {
   void addItem(
     String name,
     double price,
-    bool arrow,
   ) {
     if (_items.containsKey(name)) {
       // change quantity...
@@ -157,5 +185,16 @@ class Meals with ChangeNotifier {
     _items.removeWhere((key, value) => value.qty == 0);
 
     notifyListeners();
+  }
+
+  List<Meal> filterItems(String name) {
+    List<Meal> listFiltered = [];
+
+    listFiltered = _serveritems.values.toList();
+
+    listFiltered =
+        listFiltered.where((element) => element._catagory == name).toList();
+
+    return listFiltered;
   }
 }

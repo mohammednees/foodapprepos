@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/model/meals.dart';
+import 'package:provider/provider.dart';
 
 class Quantitybtn extends StatefulWidget {
+  Meal _meal;
+  Quantitybtn(this._meal);
   @override
   QuantitybtnState createState() => QuantitybtnState();
 }
@@ -18,6 +22,8 @@ class QuantitybtnState extends State<Quantitybtn> {
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
+    var mealsCart = Provider.of<Meals>(context, listen: false);
+
     return Visibility(
       visible: visibility,
       child: Container(
@@ -68,6 +74,7 @@ class QuantitybtnState extends State<Quantitybtn> {
                 onPressed: () {
                   setState(() {
                     count = count + 1;
+                    mealsCart.addItem(widget._meal.name, widget._meal.price);
                   });
                 },
               ),
@@ -78,6 +85,7 @@ class QuantitybtnState extends State<Quantitybtn> {
       replacement: GestureDetector(
         onTap: () {
           _changed();
+           mealsCart.addItem(widget._meal.name, widget._meal.price);
         },
         child: Container(
           width: width * 0.22,
