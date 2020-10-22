@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodapp/model/catagories.dart';
+import 'package:foodapp/model/meals.dart';
 import 'package:foodapp/model/user.dart';
 import 'package:foodapp/providers/firebase.dart';
 import 'package:foodapp/widgets/badge.dart';
@@ -14,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _auth = FirebaseAuth.instance;
+  Map<String, Meal> meals;
+  List<Catagory> catagoris;
 
   _signOut() async {
     await _auth.signOut();
@@ -21,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    _getMeals();
+    _getCatagories();
     super.initState();
   }
 
@@ -41,18 +47,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     _signOut();
                   }),
-              Image.asset(
-                'assets/images/app-pic.jpg',
-                width: 50,
-                height: 50,
-              ),
-              Badge(
-                  color: Colors.yellow,
-                  child: Icon(
-                    Icons.shopping_cart_outlined,
-                    size: 40,
+              SizedBox(width: 50),
+              Row(
+                children: [
+                  Image.asset(
+                    'assets/images/app-pic.jpg',
+                    width: 50,
+                    height: 50,
                   ),
-                  value: '3'),
+                  Text('Ramallah Rest.')
+                ],
+              ),
+              SizedBox(width: 50),
+              GestureDetector(
+                onTap: () {
+                  print('cart pressed');
+                },
+                child: Badge(
+                    color: Colors.yellow,
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      size: 40,
+                    ),
+                    value: '3'),
+              ),
             ],
           ),
           Divider(
@@ -64,25 +82,36 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: 3,
-                itemBuilder: (context, index) => FoodType(
-                      name: 'food',
-                      color: Colors.amber,
-                      icon: Icon(Icons.food_bank),
-                    )),
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    print(index);
+                  },
+                  child: FoodType(catagoris[index]))),
           ),
           SizedBox(
             height: 5,
           ),
           Container(
-            height: MediaQuery.of(context).size.height / 1.5,
-            color: Colors.amberAccent,
-            child: ListView.builder(
+              height: MediaQuery.of(context).size.height / 1.5,
+              color: Colors.amberAccent[100],
+              child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: 3,
-                itemBuilder: (context, index) => FoodItem()),
-          )
+                itemCount: meals.length,
+                itemBuilder: (context, index) =>
+                    FoodItem(meals.values.toList()[index]),
+              ))
         ],
       )),
     );
+  }
+
+  /////////////////////// Get Meals ///////////////////
+
+  void _getMeals() {
+    meals = Provider.of<Meals>(context, listen: false).items;
+  }
+
+  void _getCatagories() {
+    catagoris = Provider.of<Catagories>(context, listen: false).items;
   }
 }

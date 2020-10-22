@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodapp/model/catagories.dart';
 
 class FoodType extends StatelessWidget {
-  String name;
-  Color color;
-  Icon icon;
+  Catagory _catagory;
 
-  FoodType({this.name, this.color, this.icon});
+  FoodType(this._catagory);
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +13,18 @@ class FoodType extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-          
             width: 150,
             height: 100,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: color,
+              color: _catagory.color,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Image.network(
+                _catagory.imageUrl,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Positioned(
@@ -36,12 +41,9 @@ class FoodType extends StatelessWidget {
             top: 3,
             left: 40,
             child: Text(
-              name,
+              _catagory.name,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16
-              ),
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           )
         ],

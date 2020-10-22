@@ -33,12 +33,12 @@ class QuantitybtnState extends State<Quantitybtn> {
               width: width * 0.08,
               height: width * 0.08,
               decoration: BoxDecoration(
-                  color: Colors.grey,
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(5),
                       topLeft: Radius.circular(5))),
               child: IconButton(
-                icon: Icon(Icons.remove, color: Colors.black, size: 10),
+                icon: Icon(Icons.remove, color: Colors.black, size: 20),
                 onPressed: () {
                   setState(() {
                     if (count == 1 || count < 1) {
@@ -50,7 +50,10 @@ class QuantitybtnState extends State<Quantitybtn> {
                 },
               ),
             ),
-            Text("$count"),
+            Text(
+              "$count",
+              style: TextStyle(fontSize: 18),
+            ),
             Container(
               width: width * 0.08,
               height: width * 0.08,
@@ -58,10 +61,10 @@ class QuantitybtnState extends State<Quantitybtn> {
               decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(5),
-                      topLeft: Radius.circular(5))),
+                      bottomRight: Radius.circular(5),
+                      topRight: Radius.circular(5))),
               child: IconButton(
-                icon: Icon(Icons.add, color: Colors.white, size: 10),
+                icon: Icon(Icons.add, color: Colors.black, size: 20),
                 onPressed: () {
                   setState(() {
                     count = count + 1;
@@ -84,6 +87,7 @@ class QuantitybtnState extends State<Quantitybtn> {
           alignment: Alignment.center,
           child: Text(
             'Add',
+            style: TextStyle(fontSize: 18),
           ),
         ),
       ),

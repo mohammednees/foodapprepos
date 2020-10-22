@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodapp/model/catagories.dart';
+import 'package:foodapp/model/meals.dart';
 import 'package:foodapp/model/user.dart';
 import 'package:foodapp/providers/firebase.dart';
 import 'package:foodapp/screens/home.dart';
@@ -39,6 +41,18 @@ class App extends StatelessWidget {
               ChangeNotifierProvider(
                 create: (context) =>
                     UserIformations('', null, '', '', '', 0, false),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => Meals(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => Meal('', 0),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => Catagories(),
+              ),
+              ChangeNotifierProvider(
+                create: (context) => Catagory('', '', null),
               ),
             ],
             child: MaterialApp(
