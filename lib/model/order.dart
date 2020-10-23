@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/model/meals.dart';
 import 'package:foodapp/model/user.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 
 class Order {
@@ -30,15 +31,18 @@ class Order {
       convert(key, value);
     });
 
-    await FirebaseFirestore.instance.collection('order').doc(customerID).set({
-      'username': userName,
-      'creatAt': createAt,
-      'total': total,
-      'meallist': xxx,
-      'phoneNumber': phone,
-      //  'latPosition': value.latitude.toString(),
-      //  'longPosition': value.longitude.toString(),
-      'isdelivered': 'false'
+   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((value) async {
+      await FirebaseFirestore.instance.collection('order').doc(customerID).set({
+        'username': userName,
+        'creatAt': createAt,
+        'total': total,
+        'meallist': xxx,
+        'phoneNumber': phone,
+        'latPosition': value.latitude.toString(),
+        'longPosition': value.longitude.toString(),
+        'isdelivered': 'false'
+      });
     });
   }
 

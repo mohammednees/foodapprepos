@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:foodapp/model/meals.dart';
 import 'package:foodapp/model/order.dart';
 import 'package:foodapp/model/user.dart';
+import 'package:geolocator/geolocator.dart';
+
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -69,7 +71,16 @@ class _CartScreenState extends State<CartScreen> {
                     onChanged: (value) {
                       txtvalue = value;
                     }),
-                IconButton(icon: Icon(Icons.gps_fixed), onPressed: () {})
+                IconButton(
+                    icon: Icon(Icons.gps_fixed),
+                    onPressed: () async {
+                      print('gps pressed');
+                      //   await _getCurrentUserLocation();
+                      Position position = await Geolocator.getCurrentPosition(
+                          desiredAccuracy: LocationAccuracy.high);
+                      print(position.latitude);
+                      print(position.longitude);
+                    })
               ],
             ),
           ),
@@ -99,6 +110,18 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  /* Future<void> _getCurrentUserLocation() async {
+    try {
+      final locData = await Location().getLocation();
+      lat = locData.latitude.toString();
+      long = locData.longitude.toString();
+      print(lat);
+      print(long);
+    } catch (error) {
+      return 'open gps';
+    }
+  } */
+
   totalandApplyOrder(context) {
     return Container(
         child: Column(
@@ -118,12 +141,13 @@ class _CartScreenState extends State<CartScreen> {
               color: Colors.amber[300],
               onPressed: () async {
                 var x;
-                //  _getCurrentUserLocation();
+                //   _getCurrentUserLocation();
 
                 _showMyDialog();
                 FirebaseFirestore.instance
                     .collection('users')
-                    .doc('3L4D2WzzKJOmb8ma7Bo6')
+                    .doc(
+                        Provider.of<UserIformations>(context, listen: false).id)
                     .get()
                     .then((DocumentSnapshot) =>
                         x = DocumentSnapshot.data()['username'])
