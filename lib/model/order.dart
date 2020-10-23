@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/model/meals.dart';
+import 'package:foodapp/model/user.dart';
+import 'package:provider/provider.dart';
 
 class Order {
   String id;
@@ -20,34 +22,25 @@ class Order {
 
   void storOrder(Order ord, BuildContext context) async {
     var map = mealitems;
-   // var phone = Provider.of<UserIformations>(context, listen: false).phoneNo;
-   var phone = '123124556';
-  //  var customerID = Provider.of<UserIformations>(context, listen: false).id;
+    // var phone = Provider.of<UserIformations>(context, listen: false).phoneNo;
+    var phone = Provider.of<UserIformations>(context, listen: false).phoneNo;
+    var customerID = Provider.of<UserIformations>(context, listen: false).id;
 
-  var customerID = 'asdcv';
-    
-     map.forEach((key, value) {
+    map.forEach((key, value) {
       convert(key, value);
     });
-       
-   
-      await FirebaseFirestore.instance
-          .collection('order')
-          .doc(
-              customerID)
-          .set({
-        'username': userName,
-        'creatAt': createAt,
-        'total': total,
-        'meallist': xxx,
-        'phoneNumber': phone,
+
+    await FirebaseFirestore.instance.collection('order').doc(customerID).set({
+      'username': userName,
+      'creatAt': createAt,
+      'total': total,
+      'meallist': xxx,
+      'phoneNumber': phone,
       //  'latPosition': value.latitude.toString(),
       //  'longPosition': value.longitude.toString(),
-        'isdelivered' : 'false'
-      });
-    
-  } 
-
+      'isdelivered': 'false'
+    });
+  }
 
   void convert(String x, Meal meal) {
     xxx.putIfAbsent(

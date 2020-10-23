@@ -57,6 +57,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 userinfo.phoneNo =
                     FirebaseAuth.instance.currentUser.phoneNumber;
 
+            firebase.setDataWhenInit(
+                    'users', userinfo.id, userinfo.phoneNo, context); 
                 return StartPage();
               } else if (_isLoading) {
                 return Center(
@@ -227,7 +229,7 @@ class _SignInScreenState extends State<SignInScreen> {
             String userId = FirebaseAuth.instance.currentUser.uid;
             String phone = FirebaseAuth.instance.currentUser.phoneNumber;
 
-            firebase.setDataWhenInit('users', userId, phone);
+            firebase.setDataWhenInit('users', userId, phone, context);
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => StartPage()));
           } else {
@@ -271,6 +273,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         user = result.user;
 
                         if (user != null) {
+                          String userId = FirebaseAuth.instance.currentUser.uid;
+                          String phone =
+                              FirebaseAuth.instance.currentUser.phoneNumber;
+
+                          firebase.setDataWhenInit(
+                              'users', userId, phone, context);
                           Navigator.push(
                               context,
                               MaterialPageRoute(

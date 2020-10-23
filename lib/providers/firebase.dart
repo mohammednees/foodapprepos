@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 class FirebaseFunc with ChangeNotifier {
   /////////////////////////-SET DATA-/////////////////////////////////////////
   Future<void> setDataWhenInit(
-      String collectionPath, String user, String phoneNumber) async {
+      String collectionPath, String user, String phoneNumber,context) async {
     try {
-      await FirebaseFirestore.instance.collection(collectionPath).doc().set({
+      await FirebaseFirestore.instance.collection(collectionPath).doc(Provider.of<UserIformations>(context, listen: false).id).set({
         'name': user,
         'createAt': DateTime.now(),
         'phoneNumber': phoneNumber,
