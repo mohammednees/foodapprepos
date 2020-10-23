@@ -65,47 +65,15 @@ class Meal with ChangeNotifier {
 }
 
 class Meals with ChangeNotifier {
-  Map<String, Meal> _serveritems = {
-    'big burger': Meal(
-      'big burger',
-      20.0,
-      1,
-      'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
-      250,
-      false,
-      30,
-      'good food',
-      'Burger',
-    ),
-    'small burger': Meal(
-      'small burger',
-      10.0,
-      1,
-      'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
-      250,
-      false,
-      15,
-      'contains of some good hot spicy food',
-      'Burger',
-    ),
-    'ckicken': Meal(
-      'small burger',
-      50.0,
-      1,
-      'https://storcpdkenticomedia.blob.core.windows.net/media/recipemanagementsystem/media/recipe-media-files/recipes/retail/x17/2019_df_retail_butter-burger_20912_760x580.jpg?ext=.jpg',
-      750,
-      false,
-      15,
-      'good Chicken for one person',
-      'Ckicken',
-    ),
-  };
+  Map<String, Meal> _serveritems = {};
 
   Map<String, Meal> _items = {};
 
   Map<String, Meal> get serveritems {
     return {..._serveritems};
   }
+
+  set serveritems(value) => _serveritems = value;
 
   Map<String, Meal> get items {
     return {..._items};
@@ -132,6 +100,7 @@ class Meals with ChangeNotifier {
   void addItem(
     String name,
     double price,
+    String mode,
   ) {
     if (_items.containsKey(name)) {
       // change quantity...
@@ -140,7 +109,7 @@ class Meals with ChangeNotifier {
         (existingCartItem) => Meal(
           existingCartItem.name,
           existingCartItem.price,
-          existingCartItem.qty + 1,
+          mode == 'addButton' ? existingCartItem.qty : existingCartItem.qty + 1,
         ),
       );
     } else {
@@ -181,8 +150,6 @@ class Meals with ChangeNotifier {
         ),
       );
     }
-
-    _items.removeWhere((key, value) => value.qty == 0);
 
     notifyListeners();
   }

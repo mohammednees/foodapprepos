@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:foodapp/model/user.dart';
 import 'package:foodapp/providers/firebase.dart';
 import 'package:foodapp/screens/home.dart';
+import 'package:foodapp/screens/start_page.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -56,17 +57,16 @@ class _SignInScreenState extends State<SignInScreen> {
                 userinfo.phoneNo =
                     FirebaseAuth.instance.currentUser.phoneNumber;
 
-                return HomeScreen();
+                return StartPage();
               } else if (_isLoading) {
                 return Center(
-                
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                  Text('Please wait code'),
-                  SizedBox(height: 2),
-                  CircularProgressIndicator()
-                ]));
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Text('Please wait code'),
+                      SizedBox(height: 2),
+                      CircularProgressIndicator()
+                    ]));
               } else if (!_isLoading)
                 return Center(
                     child: SingleChildScrollView(
@@ -229,7 +229,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
             firebase.setDataWhenInit('users', userId, phone);
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                context, MaterialPageRoute(builder: (context) => StartPage()));
           } else {
             print("Error");
           }
@@ -274,7 +274,7 @@ class _SignInScreenState extends State<SignInScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
+                                  builder: (context) => StartPage()));
                         } else {
                           print("Error");
                         }

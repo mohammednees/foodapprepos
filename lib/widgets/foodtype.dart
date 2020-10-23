@@ -17,7 +17,7 @@ class FoodType extends StatelessWidget {
             height: 100,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: _catagory.color,
+              color: Colors.grey,
             ),
             child: Padding(
               padding: const EdgeInsets.all(4.0),

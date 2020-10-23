@@ -134,6 +134,7 @@ class _CartScreenState extends State<CartScreen> {
                                         .addItem(
                                       cartItems.toList()[ind].name,
                                       cartItems.toList()[ind].price,
+                                      ''
                                     );
                                   }),
                             ],
@@ -220,7 +221,7 @@ class _CartScreenState extends State<CartScreen> {
 
                   _showMyDialog();
                   FirebaseFirestore.instance
-                      .collection('user')
+                      .collection('users')
                       .doc(Provider.of<UserIformations>(context, listen: false)
                           .id)
                       .get()

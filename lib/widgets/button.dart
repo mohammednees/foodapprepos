@@ -10,13 +10,17 @@ class Quantitybtn extends StatefulWidget {
 }
 
 class QuantitybtnState extends State<Quantitybtn> {
-  bool visibility = false;
-  var count = 1;
+  bool clicked = false;
 
-  void _changed() {
-    setState(() {
-      visibility = !visibility;
-    });
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -24,9 +28,35 @@ class QuantitybtnState extends State<Quantitybtn> {
     var width = MediaQuery.of(context).size.width;
     var mealsCart = Provider.of<Meals>(context, listen: false);
 
-    return Visibility(
-      visible: visibility,
-      child: Container(
+    if (!mealsCart.items.containsKey(widget._meal.name)) {
+      clicked = false;
+    } else {
+      clicked = true;
+    }
+
+    if (!clicked) {
+      return GestureDetector(
+        onTap: () {
+          mealsCart.addItem(widget._meal.name, widget._meal.price, 'addButton');
+          setState(() {
+            clicked = true;
+            print(mealsCart.items[widget._meal.name].qty);
+          });
+        },
+        child: Container(
+          width: width * 0.22,
+          height: width * 0.08,
+          decoration: BoxDecoration(
+              color: Colors.grey, borderRadius: BorderRadius.circular(5)),
+          alignment: Alignment.center,
+          child: Text(
+            'Add',
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
+      );
+    } else {
+      return Container(
         height: width * 0.08,
         alignment: Alignment.center,
         width: width * 0.23,
@@ -46,18 +76,20 @@ class QuantitybtnState extends State<Quantitybtn> {
               child: IconButton(
                 icon: Icon(Icons.remove, color: Colors.black, size: 20),
                 onPressed: () {
-                  setState(() {
-                    if (count == 1 || count < 1) {
-                      count = 1;
-                    } else {
-                      count = count - 1;
-                    }
-                  });
+                  if (mealsCart.items[widget._meal.name].qty <= 1) {
+                    setState(() {
+                      clicked = false;
+                      mealsCart.removeItem(widget._meal.name);
+                    });
+                  } else {
+                    mealsCart.reduceQty(widget._meal.name);
+                    print(mealsCart.items[widget._meal.name].qty);
+                  }
                 },
               ),
             ),
             Text(
-              "$count",
+              "${mealsCart.items[widget._meal.name].qty == null ? 1 : mealsCart.items[widget._meal.name].qty}",
               style: TextStyle(fontSize: 18),
             ),
             Container(
@@ -72,33 +104,14 @@ class QuantitybtnState extends State<Quantitybtn> {
               child: IconButton(
                 icon: Icon(Icons.add, color: Colors.black, size: 20),
                 onPressed: () {
-                  setState(() {
-                    count = count + 1;
-                    mealsCart.addItem(widget._meal.name, widget._meal.price);
-                  });
+                  mealsCart.addItem(widget._meal.name, widget._meal.price, '');
+                  print(mealsCart.items[widget._meal.name].qty);
                 },
               ),
             ),
           ],
         ),
-      ),
-      replacement: GestureDetector(
-        onTap: () {
-          _changed();
-           mealsCart.addItem(widget._meal.name, widget._meal.price);
-        },
-        child: Container(
-          width: width * 0.22,
-          height: width * 0.08,
-          decoration: BoxDecoration(
-              color: Colors.grey, borderRadius: BorderRadius.circular(5)),
-          alignment: Alignment.center,
-          child: Text(
-            'Add',
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-      ),
-    );
+      );
+    }
   }
 }
