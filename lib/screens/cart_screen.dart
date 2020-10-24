@@ -76,8 +76,9 @@ class _CartScreenState extends State<CartScreen> {
                     onPressed: () async {
                       print('gps pressed');
                       //   await _getCurrentUserLocation();
-                      Position position = await Geolocator.getCurrentPosition(
+                      Position position = await Geolocator().getCurrentPosition(
                           desiredAccuracy: LocationAccuracy.high);
+
                       print(position.latitude);
                       print(position.longitude);
                     })
