@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:foodapp/model/user.dart';
 import 'package:geolocator/geolocator.dart';
@@ -21,6 +20,11 @@ class _CustomerLocationMapState extends State<CustomerLocationMap> {
   Map<MarkerId, Marker> markers = {};
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
+  List<Position> pos = [
+    Position(latitude: 31.923746, longitude: 35.216969),
+    Position(latitude: 31.920926, longitude: 35.207294),
+    Position(latitude: 31.916559, longitude: 35.206934)
+  ];
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = 'AIzaSyBhb_xtk3doA9uN4d8gzB0o99h0_6R1fE0';
 /////////////////////////////////////////////////////////////////////////////////
@@ -34,14 +38,22 @@ class _CustomerLocationMapState extends State<CustomerLocationMap> {
 
   _handleTap(LatLng tappedPoint) {
     markers = {};
-    //  _addMarker(tappedPoint, 'CustomerDistination',
-    //    BitmapDescriptor.defaultMarkerWithHue(90));
+    driverDestnation = Position(
+        latitude: tappedPoint.latitude, longitude: tappedPoint.longitude);
+    _addMarker(
+        tappedPoint, 'driver', BitmapDescriptor.defaultMarkerWithHue(90));
+
+    print(tappedPoint.latitude);
+    print(tappedPoint.longitude);
+
+    //  _getPolyline();
   }
 
 /////////////////////////////////////////////////////////////////////////////////////
   @override
   void initState() {
     super.initState();
+
 //////////////////////////////////////////////////////////////////////////////////////
     /*  /// origin marker
     _addMarker(LatLng(driverDestnation.latitude, driverDestnation.latitude),
@@ -60,13 +72,13 @@ class _CustomerLocationMapState extends State<CustomerLocationMap> {
     if (onlyonce) {
       mapController = controller;
 
-      Timer(
+      /*    Timer(
           Duration(seconds: 3),
           () => _addMarker(
               LatLng(
                   customerDestenation.latitude, customerDestenation.longitude),
               'customer',
-              BitmapDescriptor.defaultMarkerWithHue(90)));
+              BitmapDescriptor.defaultMarkerWithHue(90))); */
     }
 
     onlyonce = false;
@@ -83,7 +95,7 @@ class _CustomerLocationMapState extends State<CustomerLocationMap> {
       icon: descriptor,
     );
     markers[markerId] = marker;
-    polylines.clear();
+    // polylines.clear();
     polylineCoordinates.clear();
     _getPolyline();
     // });
@@ -132,27 +144,63 @@ class _CustomerLocationMapState extends State<CustomerLocationMap> {
             latitude: double.parse(snapshot.data['latPosition']),
             longitude: double.parse(snapshot.data['longPosition']));
 
-        _addMarker(
-            LatLng(customerDestenation.latitude, customerDestenation.longitude),
-            'customer',
-            BitmapDescriptor.defaultMarkerWithHue(90));
-
+        MarkerId markerId = MarkerId('customer');
+        Marker marker = Marker(
+          position: LatLng(
+              customerDestenation.latitude, customerDestenation.longitude),
+          draggable: true,
+          markerId: markerId,
+          icon: BitmapDescriptor.defaultMarkerWithHue(90),
+        );
+        markers[markerId] = marker;
         return Scaffold(
             appBar: AppBar(title: Text('Get Location')),
-            body: GoogleMap(
-              //onTap: _handleTap,
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(double.parse(snapshot.data['latPosition']),
-                      double.parse(snapshot.data['longPosition'])),
-                  zoom: 15),
-              myLocationEnabled: true,
-              tiltGesturesEnabled: true,
-              compassEnabled: true,
-              scrollGesturesEnabled: true,
-              zoomGesturesEnabled: true,
-              onMapCreated: _onMapCreated,
-              markers: Set<Marker>.of(markers.values),
-              polylines: Set<Polyline>.of(polylines.values),
+            body: Stack(
+              children: [
+                GoogleMap(
+                  onTap: _handleTap,
+                  initialCameraPosition: CameraPosition(
+                      target: LatLng(double.parse(snapshot.data['latPosition']),
+                          double.parse(snapshot.data['longPosition'])),
+                      zoom: 15),
+                  myLocationEnabled: true,
+                  tiltGesturesEnabled: true,
+                  compassEnabled: true,
+                  scrollGesturesEnabled: true,
+                  zoomGesturesEnabled: true,
+                  onMapCreated: _onMapCreated,
+                  markers: Set<Marker>.of(markers.values),
+                  polylines: Set<Polyline>.of(polylines.values),
+                ),
+                Container(
+                  alignment: Alignment.topLeft,
+                  padding: EdgeInsets.fromLTRB(20, 5, 0, 0),
+                  width: MediaQuery.of(context).size.width - 50,
+                  height: 40,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 6,
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        driverDestnation = pos[index];
+                        _addMarker(
+                            LatLng(driverDestnation.latitude,
+                                driverDestnation.longitude),
+                            'driver',
+                            BitmapDescriptor.defaultMarkerWithHue(90));
+                        print(index);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(5),
+                        width: 80,
+                        height: 80,
+                        color: Colors.black54,
+                        child: Text('order+ $index'),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ));
       },
     );

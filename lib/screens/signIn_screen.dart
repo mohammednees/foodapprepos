@@ -52,13 +52,16 @@ class _SignInScreenState extends State<SignInScreen> {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                
                 _isLoading = false;
                 userinfo.id = FirebaseAuth.instance.currentUser.uid;
+        
+
                 userinfo.phoneNo =
                     FirebaseAuth.instance.currentUser.phoneNumber;
-
-            firebase.setDataWhenInit(
-                    'users', userinfo.id, userinfo.phoneNo, context); 
+                print(userinfo.id);
+                firebase.setDataWhenInit(
+                    'users', userinfo.id, userinfo.phoneNo, context);
                 return StartPage();
               } else if (_isLoading) {
                 return Center(

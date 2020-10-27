@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodapp/screens/favorite_page.dart';
 import 'package:foodapp/screens/home.dart';
-import 'package:foodapp/screens/navigation_page.dart';
+import 'package:foodapp/screens/map/customer_map.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -15,11 +15,11 @@ class _StartPageState extends State<StartPage> {
       'title': 'Categories',
     },
     {
-      'page': FavoritePage(),
+      'page': FavoriteScreen(),
       'title': 'Your Favorite',
     },
     {
-      'page': NavigationScreen(),
+      'page': CustomerLocationMap(),
       'title': 'Your Navigate',
     },
   ];

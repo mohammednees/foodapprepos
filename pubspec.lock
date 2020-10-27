@@ -160,13 +160,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_facebook_login:
-    dependency: "direct main"
-    description:
-      name: flutter_facebook_login
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -220,7 +213,7 @@ packages:
     source: hosted
     version: "6.1.1"
   geolocator_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: geolocator_platform_interface
       url: "https://pub.dartlang.org"
@@ -282,27 +275,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.2"
-  location:
-    dependency: "direct main"
-    description:
-      name: location
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.2"
-  location_platform_interface:
-    dependency: transitive
-    description:
-      name: location_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
-  location_web:
-    dependency: transitive
-    description:
-      name: location_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.0"
   matcher:
     dependency: transitive
     description:

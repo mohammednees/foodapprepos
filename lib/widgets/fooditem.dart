@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:foodapp/model/meals.dart';
+import 'package:foodapp/providers/firebase.dart';
 import 'package:foodapp/widgets/button.dart';
 import 'package:foodapp/widgets/item_page.dart';
 
@@ -73,27 +74,40 @@ class _FoodItemState extends State<FoodItem> {
                             fontWeight: FontWeight.bold,
                             color: Colors.black),
                       ),
+                      SizedBox(width: 20),
+                      Text(
+                        widget._meal.price.toString() + '\$',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        widget._meal.calories.toString() + 'KCal',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
                     ],
                   ),
-                  Quantitybtn(widget._meal)
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Quantitybtn(widget._meal),
+                        IconButton(
+                            icon: Icon(Icons.star),
+                            color: Colors.grey,
+                            onPressed: () {
+                              print('pressed');
+                              FirebaseFunc firebase = FirebaseFunc();
+                              firebase.addFavorite(widget._meal.name, context);
+                            })
+                      ])
                 ],
-              ),
-              Text(
-                widget._meal.price.toString() + '\$',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-              SizedBox(
-                width: 20,
-              ),
-              Text(
-                widget._meal.calories.toString() + 'KCal',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
               ),
             ],
           ),

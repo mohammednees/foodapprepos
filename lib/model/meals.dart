@@ -155,6 +155,8 @@ class Meals with ChangeNotifier {
   }
 
   List<Meal> filterItems(String name) {
+    print(_serveritems.length);
+
     List<Meal> listFiltered = [];
 
     listFiltered = _serveritems.values.toList();
