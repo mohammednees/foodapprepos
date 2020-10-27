@@ -31,7 +31,8 @@ class Order {
       convert(key, value);
     });
 
-   Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((value) async {
       await FirebaseFirestore.instance.collection('order').doc(customerID).set({
         'username': userName,

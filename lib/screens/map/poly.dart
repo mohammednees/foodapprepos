@@ -5,7 +5,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 import 'package:geolocator/geolocator.dart';
 
-
 class Poly extends StatefulWidget {
   @override
   _PolyState createState() => _PolyState();
@@ -22,7 +21,9 @@ class _PolyState extends State<Poly> {
   String googleAPiKey = 'AIzaSyBhb_xtk3doA9uN4d8gzB0o99h0_6R1fE0';
 
   Future<Position> getLcationGeo() async {
-  Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator()
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+
     return position;
   }
 
